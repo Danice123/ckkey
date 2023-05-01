@@ -4,6 +4,7 @@ import (
 	"errors"
 	"hash/fnv"
 	"math/rand"
+	"sort"
 	"strconv"
 )
 
@@ -109,6 +110,7 @@ func calcBuckets(r *rand.Rand, valueMap map[string]int) []string {
 	for k := range valueMap {
 		buckets = append(buckets, k)
 	}
+	sort.Strings(buckets)
 
 	var order []string
 Loop:
