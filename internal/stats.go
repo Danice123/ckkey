@@ -1,39 +1,50 @@
 package internal
 
-import "math/rand"
+import (
+	"errors"
+	"fmt"
+	"math/rand"
+)
 
-func calcAttack(trainerId int, monId int, level int) int {
-	adjustedId := 10000 + trainerId
-	withMonData := adjustedId * monId * level
-	n := rand.NewSource(int64(withMonData)).Int63()
-
-	return int(n % 16)
+type Encounter struct {
+	Attack  int
+	Defense int
+	Speed   int
+	Special int
 }
 
-func calcDefense(trainerId int, monId int, level int) int {
-	adjustedId := 10000 + trainerId
-	withMonData := adjustedId * monId * level
-	n := rand.NewSource(int64(withMonData)).Int63()
+func CalcEncounter(trainerId int, dexId int, level int) (Encounter, error) {
+	if trainerId < 0 || trainerId > 65535 {
+		return Encounter{}, errors.New("trainer ID invalid")
+	}
+	if dexId < 1 || dexId > 251 {
+		return Encounter{}, errors.New("dex ID invalid")
+	}
+	if level < 1 {
+		return Encounter{}, errors.New("level invalid")
+	}
+	adjustedId := 10000 + int64(trainerId)
+	withMonData := adjustedId * int64(dexId) * int64(level)
+	r := rand.NewSource(withMonData)
 
-	return int((n >> 2) % 16)
+	return Encounter{
+		Attack:  int(r.Int63() % 16),
+		Defense: int(r.Int63() % 16),
+		Speed:   int(r.Int63() % 16),
+		Special: int(r.Int63() % 16),
+	}, nil
+
 }
 
-func calcSpeed(trainerId int, monId int, level int) int {
-	adjustedId := 10000 + trainerId
-	withMonData := adjustedId * monId * level
-	n := rand.NewSource(int64(withMonData)).Int63()
-
-	return int((n >> 4) % 16)
+func (e Encounter) CalcHealth() int {
+	return (e.Attack%2)*8 + (e.Defense%2)*4 + (e.Speed%2)*2 + (e.Special%2)*1
 }
 
-func calcSpecial(trainerId int, monId int, level int) int {
-	adjustedId := 10000 + trainerId
-	withMonData := adjustedId * monId * level
-	n := rand.NewSource(int64(withMonData)).Int63()
-
-	return int((n >> 6) % 16)
-}
-
-func calcHealth(att int, def int, spe int, spc int) int {
-	return (att%2)*8 + (def%2)*4 + (spe%2)*2 + (spc%2)*1
+func (e Encounter) Print() {
+	fmt.Printf("Health: %d\nAttack: %d\nDefense: %d\nSpeed: %d\nSpecial: %d\n",
+		e.CalcHealth(),
+		e.Attack,
+		e.Defense,
+		e.Speed,
+		e.Special)
 }

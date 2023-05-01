@@ -1,12 +1,39 @@
 package cmd
 
-import "fmt"
+import (
+	"strconv"
 
-var versionCmd = &cobra.Command{
-	Use:   "version",
-	Short: "Print the version number of Hugo",
-	Long:  `All software has versions. This is Hugo's`,
+	"github.com/spf13/cobra"
+
+	"github.com/Danice123/ckkey/internal"
+)
+
+func init() {
+	rootCmd.AddCommand(generateCmd)
+}
+
+var generateCmd = &cobra.Command{
+	Use:   "generate [trainer id] [dex number] [level]",
+	Short: "Generate a deterministic encounter",
+	Args:  cobra.ExactArgs(3),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Hugo Static Site Generator v0.9 -- HEAD")
+		trainerId, err := strconv.Atoi(args[0])
+		if err != nil {
+			panic(err)
+		}
+		dexNumber, err := strconv.Atoi(args[1])
+		if err != nil {
+			panic(err)
+		}
+		level, err := strconv.Atoi(args[2])
+		if err != nil {
+			panic(err)
+		}
+
+		e, err := internal.CalcEncounter(trainerId, dexNumber, level)
+		if err != nil {
+			panic(err)
+		}
+		e.Print()
 	},
 }
