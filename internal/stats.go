@@ -48,3 +48,7 @@ func (e Encounter) Print() {
 		e.Speed,
 		e.Special)
 }
+
+func (e Encounter) PrintHex() {
+	fmt.Printf("%x%x%x%x\n", e.Attack, e.Defense, e.Speed, e.Special)
+}

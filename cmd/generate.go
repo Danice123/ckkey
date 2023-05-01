@@ -35,5 +35,6 @@ var generateCmd = &cobra.Command{
 			panic(err)
 		}
 		e.Print()
+		e.PrintHex()
 	},
 }
