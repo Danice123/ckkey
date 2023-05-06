@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Danice123/ckkey/internal/roll"
+	"github.com/Danice123/ckkey/package/roll"
 	"github.com/julienschmidt/httprouter"
 )
 

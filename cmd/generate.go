@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strconv"
 
-	"github.com/Danice123/ckkey/internal/roll"
+	"github.com/Danice123/ckkey/package/roll"
 	"github.com/spf13/cobra"
 )
 

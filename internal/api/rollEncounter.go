@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Danice123/ckkey/internal/ckp"
-	"github.com/Danice123/ckkey/internal/roll"
+	"github.com/Danice123/ckkey/package/ckp"
+	"github.com/Danice123/ckkey/package/roll"
 	"github.com/julienschmidt/httprouter"
 )
 
