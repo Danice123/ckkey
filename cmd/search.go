@@ -1,10 +1,11 @@
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 
-	"github.com/Danice123/ckkey/internal"
+	"github.com/Danice123/ckkey/internal/roll"
 	"github.com/spf13/cobra"
 )
 
@@ -27,21 +28,24 @@ var searchCmd = &cobra.Command{
 	Use:   "search [dex number] [level]",
 	Short: "Search for perfect encounters",
 	Args:  cobra.ExactArgs(2),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		dexNumber, err := strconv.Atoi(args[0])
 		if err != nil {
-			panic(err)
+			return err
+		}
+		if dexNumber < 1 || dexNumber > 251 {
+			return errors.New("dex ID invalid")
 		}
 		level, err := strconv.Atoi(args[1])
 		if err != nil {
-			panic(err)
+			return err
+		}
+		if level < 1 {
+			return errors.New("level invalid")
 		}
 
 		for i := 0; i < 65535; i++ {
-			e, err := internal.CalcEncounter(i, dexNumber, level)
-			if err != nil {
-				panic(err)
-			}
+			e := roll.CalcDVs(i, dexNumber, level)
 			if searchAttack != -1 && e.Attack != searchAttack {
 				continue
 			}
@@ -60,5 +64,6 @@ var searchCmd = &cobra.Command{
 			fmt.Printf("Trainer Id: %d\n", i)
 			e.Print()
 		}
+		return nil
 	},
 }
