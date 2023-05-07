@@ -1,0 +1,21 @@
+{
+    "manifest_version": 3,
+    "name": "CK+ RNG Plugin",
+    "description": "Deterministic CK+ encounter and DV generation for Emi Calc",
+    "version": "1.0",
+    "action": {
+      "default_popup": "tool.html"
+    },
+    "content_scripts": [
+      {
+        "js": ["inject.js"],
+        "css" : ["inject.css"],
+        "matches": [
+          "https://emi.dev/ck+/"
+        ]
+      }
+    ],
+    "permissions": [
+      "storage"
+    ]
+  }
