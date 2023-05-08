@@ -47,12 +47,21 @@ const orderAllEncounters = (type, table) => {
     if (target.classList.contains("day-pool")) {
         orderEncounters(target.firstElementChild, table.Day)
 
-        target = encounterMenu.children.item(index+1)
-        orderEncounters(target.firstElementChild, table.Night)
+        if (table.Night != null) {
+            target = encounterMenu.children.item(index+1)
+            orderEncounters(target.firstElementChild, table.Night)
+        } else {
+            target = encounterMenu.children.item(index+1)
+            orderEncounters(target.firstElementChild, table.Day)
+        }
 
         target = encounterMenu.children.item(index+2)
         if (target.classList != null && target.classList.contains("morning-pool")) {
-            orderEncounters(target.firstElementChild, table.Morning)
+            if (table.Morning != null) {
+                orderEncounters(target.firstElementChild, table.Morning)
+            } else {
+                orderEncounters(target.firstElementChild, table.Day)
+            }
         }
     } else if (table.Day != null) {
         orderEncounters(target.firstElementChild, table.Day)
