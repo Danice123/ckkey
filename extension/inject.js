@@ -122,10 +122,10 @@ const observer = new MutationObserver((mutationList, observer) => {
                         stat.textContent = "Def: " + json.DVs.Defense
                         menu.appendChild(stat)
                         stat = document.createElement("button")
-                        stat.textContent = "Spe: " + json.DVs.Special
+                        stat.textContent = "Spc: " + json.DVs.Special
                         menu.appendChild(stat)
                         stat = document.createElement("button")
-                        stat.textContent = "Spd: " + json.DVs.Speed
+                        stat.textContent = "Spe: " + json.DVs.Speed
                         menu.appendChild(stat)
                     }
                     menu.appendChild(dvcalc)
